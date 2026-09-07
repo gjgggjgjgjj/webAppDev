@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SE 3200 - Project 1: Hello JS</title>
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-color: #2c3e50;
+      --accent-color: #2563eb;
+      --accent-hover: #1d4ed8;
+      --border-color: #e2e8f0;
+    }
+
+    body.dark-mode {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-color: #f8fafc;
+      --accent-color: #38bdf8;
+      --accent-hover: #0284c7;
+      --border-color: #334155;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      max-width: 650px;
+      padding: 2rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: var(--accent-color);
+    }
+
+    .profile-img {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    ul {
+      line-height: 1.8;
+      padding-left: 1.2rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .controls {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    button {
+      background-color: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: var(--accent-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 id="user-name">David Cardenas</h1>
+
+    <img 
+      class="profile-img" 
+      src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" 
+      alt="Developer workspace with code on display"
+    >
+
+    <p>
+      Hello my name is David Cardenas and I really enjoy rock climbing, playing catan with my roomates as of late, playing tennis with the hopes that maybe I'll be better than my girlfriend someday, and I guess the last thing you should know about me is I enjoy anything that involves self overcoming!
+    </p>
+
+    <h2>Semester App Ideas</h2>
+    <ul id="app-ideas">
+      <li><strong>TetherUs </strong>- building off my long-distance relationship app that needs work app idea, but as a web application. Couples could complete activities together, maintain a shared space, grow a virtual tree/pet, and have little daily interactions.</li>
+      <li>https://github.com/gjgggjgjgjj/TetherUs</li>
+      <li><strong>LearnLoop</strong> An app designed around actually getting better at learning. You enter something you're trying to learn and the app gives you small challenges, review sessions, and progress tracking.
+This could eventually incorporate concepts like spaced repetition, active recall, and difficulty tracking.</li>
+      <li><strong>Climb Quest</strong> A climbing progression app where you track climbs, projects, grades, attempts, and personal records.
+Possible later features: visual progress charts, challenges, route recommendations, team leaderboards. </li>
+    </ul>
+
+    <div class="controls">
+      <button id="add-idea-btn">Add Random App Idea (lame button but here ye go)</button>
+    </div>
+  </div>
+
+  <script>
+      //I guess i'm just gonna have everything in the same file
+
+    const addIdeaBtn = document.getElementById('add-idea-btn');
+    const appList = document.getElementById('app-ideas');
+    const body = document.body;
+
+    // Extra app ideas for interactive manipulation
+    const extraIdeas = [
+      "Real-Time Recipe Builder based on available fridge ingredients.",
+      "Campus Event Map showing live student club activities.",
+      "Personal Finance Dashboard for tracking monthly subscription costs."
+    ];
+
+    addIdeaBtn.addEventListener('click', () => {
+      if (extraIdeas.length > 0) {
+        // create new list item element
+        const newLi = document.createElement('li');
+        newLi.textContent = extraIdeas.shift();
+        
+        // modify DOM content by appending the new element
+        appList.appendChild(newLi);
+      } else {
+        addIdeaBtn.textContent = "No More Ideas!";
+        addIdeaBtn.disabled = true;
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
