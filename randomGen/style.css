@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  min-height: 100vh;           /* Takes up the full height of the viewport */
+  display: flex;               /* Enables Flexbox */
+  flex-direction: column;      /* Stacks content top-to-bottom */
+  justify-content: flex-start;     /* Centers vertically */
+  align-items: center;         /* Centers horizontally */
+  text-align: center;          /* Centers text inside all headings and paragraphs */
+}
+
+#typeButton{
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#typeDropDown{
+  display: none;              /* hidden by default */
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  width: 150px;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+
+#sportGrade{
+  display: none;              /* hidden by default */
+  background: #f0f0f0;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  width: 150px;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#boulderGrade{
+  display: none;              /* hidden by default */
+  background: #f0f0f0;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  width: 150px;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.main-header{
+  font-family: system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  text-rendering: optimizeLegibility;
+}
+
+.main-header h1 {
+  background: linear-gradient(90deg, #4a90e2, #8f6ed5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+
