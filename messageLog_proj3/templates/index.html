@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Night Ideas!!</title>
+
+    <!-- Example: linking a CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+      <div id="leHeader">
+            <h1>Date Night Ideas!!</h1>
+            <h2>Come find some lovely date ideas for romantic ones and even friends</h2>
+            <p>Let's choose something fun to do, or if you see something missing, add some of your ideas!</p>
+      </div>
+
+
+      <!-- will add the css for this underneath later -->
+      <div class="pic-form">
+            <div class="pic-side">
+                  <img src="{{ url_for('static', filename='assets/dateArt.webp') }}" alt="some random cute picture">
+            </div>
+            <div class="form-side">
+                  <h3 class="form-title">Would you like to add an idea?</h3>
+
+                  <div class="form-actions">
+                        <form id="ideaForm">
+                              <label for="ideaInput">Add your idea:</label>
+                              <textarea id="ideaInput" name="idea" rows="4" placeholder="Write a cute date idea..."></textarea>
+
+                              <button class="rose-gold-btn" type="submit">Submit Idea</button>
+                        </form>
+
+                  </div>
+
+            </div>
+      </div>
+
+      <div id="listIdeas">
+            <h1>Here are a list of some ideas!</h1>
+
+      </div>
+
+
+
+      <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
