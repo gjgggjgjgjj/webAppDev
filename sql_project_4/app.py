@@ -3,7 +3,7 @@ from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
-# Server-Wide CORS Headers
+# server  Wide CORS Headers
 @app.after_request
 def apply_cors(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
@@ -16,7 +16,7 @@ def apply_cors(response):
 def handle_options(path):
     return "", 200
 
-# Encapsulated Database Class
+#database class thingy
 class Database:
     def __init__(self, db_name="database.db"):
         self.db_name = db_name
@@ -80,12 +80,10 @@ class Database:
 
 db = Database()
 
-# Page Route
 @app.route('/')
 def home():
     return render_template("index.html")
 
-# RESTful API Endpoints
 @app.route('/api/ideas', methods=['GET'])
 def get_ideas():
     return jsonify(db.get_all()), 200
@@ -123,7 +121,7 @@ def delete_idea(idea_id):
         return jsonify({"error": f"Idea with ID {idea_id} not found."}), 404
     return jsonify({"message": f"Idea {idea_id} deleted successfully."}), 200
 
-# Catch-all Invalid Route Error Handling
+# leerrors
 @app.errorhandler(404)
 def not_found(e):
     return jsonify({"error": "Invalid route path or method."}), 404
