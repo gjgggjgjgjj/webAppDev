@@ -1,7 +1,7 @@
 # Project 4 - Resourceful: Date Night Ideas
 
 ## Resource & Data Model
-- **Resource Name:** `DateNightIdea`
+- **Resource Name:** `DateNightIdea now with personal login`
 - **Attributes:**
   1. `id` (INTEGER PRIMARY KEY) - Unique identifier
   2. `title` (TEXT) - Name of the activity

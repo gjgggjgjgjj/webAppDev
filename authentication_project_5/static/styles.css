@@ -1,0 +1,123 @@
+body {
+    background-color: #0a1a2f;   /* deep navy */
+    color: #f8f1e4;              /* warm cream text */
+    font-family: "Georgia", serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: #b76e79;   /* rose gold */
+}
+
+#leHeader {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.pic-form {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.pic-side img {
+    width: 350px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.form-side {
+    flex: 1;
+    color: #f8f1e4;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.form-title {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: #b76e79;
+}
+
+#ideaForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#ideaForm input, #ideaForm textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #d4a5a5;
+    font-size: 1rem;
+    background: #fdf7f7;
+    color: #0a1a2f;
+}
+
+.rose-gold-btn {
+    background: linear-gradient(135deg, #b76e79, #d4a5a5, #b76e79);
+    color: #f8f1e4;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    transition: all 0.25s ease;
+    margin-top: 10px;
+}
+
+.rose-gold-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #c48b9f, #e7b7c2, #c48b9f);
+}
+
+.cancel-btn {
+    background: #4a5568;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#listSection {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+#listIdeas {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.idea-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 4px solid #b76e79;
+    padding: 16px 20px;
+    border-radius: 8px;
+    color: #f8f1e4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-actions button {
+    margin-left: 8px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.edit-btn { background: #d4a5a5; color: #0a1a2f; }
+.delete-btn { background: #e53e3e; color: white; }
+
