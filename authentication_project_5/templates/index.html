@@ -10,46 +10,90 @@
 <body>
       <div id="leHeader">
             <h1>Here is the ultimate place to store all your best ideas!!</h1>
-            <h2>You will add a category then the specified idea</h2>
-            <p>Add your project that you want to postpone!</p>
+            <h2>Log in or register to view and manage your date night ideas</h2>
+            <div id="userBar" style="display: none; margin-top: 15px;">
+                  <span id="welcomeMsg" style="font-size: 1.2rem; margin-right: 12px;"></span>
+                  <button id="logoutBtn" type="button" class="cancel-btn">Log Out</button>
+            </div>
       </div>
 
-      <div class="pic-form">
-            <div class="pic-side">
-                  <img src="{{ url_for('static', filename='assets/ideas.jpg') }}" alt="some random cute picture">
-            </div>
+      <!-- AUTHENTICATION SECTION (Visible when logged out) -->
+      <div id="authSection" class="pic-form">
             <div class="form-side">
-                  <h3 id="formTitle" class="form-title">Would you like to add an idea?</h3>
+                  <h3 class="form-title">Log In</h3>
+                  <form id="loginForm" style="display: flex; flex-direction: column; gap: 10px;">
+                        <label for="loginEmail">Email:</label>
+                        <input type="email" id="loginEmail" required placeholder="you@example.com">
 
-                  <div class="form-actions">
-                        <form id="ideaForm">
-                              <input type="hidden" id="ideaId" name="id">
+                        <label for="loginPassword">Password:</label>
+                        <input type="password" id="loginPassword" required placeholder="Enter password">
 
-                              <label for="titleInput">Title:</label>
-                              <input type="text" id="titleInput" required placeholder="e.g. Stargazing at the Park">
+                        <button class="rose-gold-btn" type="submit">Log In</button>
+                  </form>
+            </div>
 
-                              <label for="categoryInput">Category:</label>
-                              <input type="text" id="categoryInput" required placeholder="e.g. Outdoor, Cozy, Foodie">
+            <div class="form-side">
+                  <h3 class="form-title">Create an Account</h3>
+                  <form id="registerForm" style="display: flex; flex-direction: column; gap: 10px;">
+                        <label for="regFirst">First Name:</label>
+                        <input type="text" id="regFirst" required placeholder="First Name">
 
-                              <label for="costInput">Estimated Cost ($):</label>
-                              <input type="number" step="0.01" id="costInput" required placeholder="e.g. 25.00">
+                        <label for="regLast">Last Name:</label>
+                        <input type="text" id="regLast" required placeholder="Last Name">
 
-                              <label for="locationInput">Location:</label>
-                              <input type="text" id="locationInput" required placeholder="e.g. Memory Grove Park">
+                        <label for="regEmail">Email:</label>
+                        <input type="email" id="regEmail" required placeholder="you@example.com">
 
-                              <label for="notesInput">Notes:</label>
-                              <textarea id="notesInput" rows="3" placeholder="Bring blankets and snacks!"></textarea>
+                        <label for="regPassword">Password:</label>
+                        <input type="password" id="regPassword" required placeholder="Create password">
 
-                              <button id="submitBtn" class="rose-gold-btn" type="submit">Submit Idea</button>
-                              <button id="cancelBtn" type="button" class="cancel-btn" style="display: none;">Cancel Edit</button>
-                        </form>
+                        <button class="rose-gold-btn" type="submit">Register</button>
+                  </form>
+            </div>
+      </div>
+
+      <!-- Status / Error Message Display -->
+      <p id="authMessage" style="text-align: center; font-weight: bold; font-size: 1.1rem; min-height: 1.5em;"></p>
+
+      <!-- PROTECTED RESOURCE SECTION (Hidden until user logs in) -->
+      <div id="protectedApp" style="display: none;">
+            <div class="pic-form">
+                  <div class="pic-side">
+                        <img src="{{ url_for('static', filename='assets/ideas.jpg') }}" alt="some random cute picture">
+                  </div>
+                  <div class="form-side">
+                        <h3 id="formTitle" class="form-title">Would you like to add an idea?</h3>
+
+                        <div class="form-actions">
+                              <form id="ideaForm">
+                                    <input type="hidden" id="ideaId" name="id">
+
+                                    <label for="titleInput">Title:</label>
+                                    <input type="text" id="titleInput" required placeholder="e.g. Stargazing at the Park">
+
+                                    <label for="categoryInput">Category:</label>
+                                    <input type="text" id="categoryInput" required placeholder="e.g. Outdoor, Cozy, Foodie">
+
+                                    <label for="costInput">Estimated Cost ($):</label>
+                                    <input type="number" step="0.01" id="costInput" required placeholder="e.g. 25.00">
+
+                                    <label for="locationInput">Location:</label>
+                                    <input type="text" id="locationInput" required placeholder="e.g. Memory Grove Park">
+
+                                    <label for="notesInput">Notes:</label>
+                                    <textarea id="notesInput" rows="3" placeholder="Bring blankets and snacks!"></textarea>
+
+                                    <button id="submitBtn" class="rose-gold-btn" type="submit">Submit Idea</button>
+                                    <button id="cancelBtn" type="button" class="cancel-btn" style="display: none;">Cancel Edit</button>
+                              </form>
+                        </div>
                   </div>
             </div>
-      </div>
 
-      <div id="listSection">
-            <h1>Here is a list of some ideas!</h1>
-            <div id="listIdeas"></div>
+            <div id="listSection">
+                  <h1>Here is a list of some ideas!</h1>
+                  <div id="listIdeas"></div>
+            </div>
       </div>
 
       <script src="{{ url_for('static', filename='script.js') }}"></script>
