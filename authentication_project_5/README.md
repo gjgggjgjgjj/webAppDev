@@ -45,3 +45,34 @@ CREATE TABLE IF NOT EXISTS ideas (
     notes TEXT,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+```
+
+---
+
+## REST API Endpoints
+
+### Authentication & Users
+| Endpoint Name | Path | HTTP Method | Description |
+| :--- | :--- | :--- | :--- |
+| Register User | `/api/users` | `POST` | Creates a new user after verifying email uniqueness and hashing the password. |
+| Log In (Create Session) | `/api/sessions` | `POST` | Authenticates user credentials, stores session in memory, and sets a session cookie. |
+| Check Session | `/api/sessions` | `GET` | Verifies if the current session cookie is valid and returns basic user info. |
+| Log Out (Delete Session) | `/api/sessions` | `DELETE` | Removes the user's session from the in-memory store and clears the session cookie. |
+
+### Date Night Ideas *(Requires Authentication)*
+| Endpoint Name | Path | HTTP Method | Description |
+| :--- | :--- | :--- | :--- |
+| List All Ideas | `/api/ideas` | `GET` | Retrieves all date night ideas for the logged-in user (returns `401` if unauthenticated). |
+| Get Single Idea | `/api/ideas/<id>` | `GET` | Retrieves a specific idea by ID (returns `401` if unauthenticated). |
+| Create Idea | `/api/ideas` | `POST` | Creates a new date night idea (returns `401` if unauthenticated). |
+| Update Idea | `/api/ideas/<id>` | `PUT` | Updates an existing date night idea by ID (returns `401` if unauthenticated). |
+| Delete Idea | `/api/ideas/<id>` | `DELETE` | Deletes a date night idea by ID (returns `401` if unauthenticated). |
+
+---
+
+## Password Hashing Method & Parameters
+
+- **Library & Algorithm:** `BCrypt` via Python's `passlib.hash.bcrypt` (backed by `bcrypt==4.0.1`)
+- **Hash Format / Identifier:** `$2b$` (Modular Crypt Format)
+- **Cost Factor (Rounds):** `12` rounds (default Passlib `bcrypt` work factor, performing $2^{12}$ key-expansion iterations)
+- **Salt:** Automatically generated 128-bit (16-byte) cryptographically random salt per password, encoded as 22 Base64 characters inside the resulting hash string
