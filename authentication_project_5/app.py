@@ -8,7 +8,7 @@ app = Flask(__name__)
 sessions = {}
 
 
-#Cors headers
+# CORS Headers
 @app.after_request
 def apply_cors(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
@@ -51,16 +51,18 @@ class Database:
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS ideas (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER NOT NULL,
                     title TEXT NOT NULL,
                     category TEXT NOT NULL,
                     estimated_cost REAL NOT NULL,
                     location TEXT NOT NULL,
-                    notes TEXT
+                    notes TEXT,
+                    FOREIGN KEY (user_id) REFERENCES users(id)
                 )
             """)
             conn.commit()
 
-    # user methods 
+    #user methods 
     def create_user(self, first_name, last_name, email, hashed_password):
         with self.get_connection() as conn:
             cursor = conn.cursor()
@@ -86,13 +88,13 @@ class Database:
             ).fetchone()
             return dict(row) if row else None
 
-    #Idea methods
+    # idea Methods 
     def get_all(self, user_id):
-            with self.get_connection() as conn:
-                rows = conn.execute(
-                    "SELECT * FROM ideas WHERE user_id = ?", (user_id,)
-                ).fetchall()
-                return [dict(row) for row in rows]
+        with self.get_connection() as conn:
+            rows = conn.execute(
+                "SELECT * FROM ideas WHERE user_id = ?", (user_id,)
+            ).fetchall()
+            return [dict(row) for row in rows]
 
     def get_one(self, idea_id, user_id):
         with self.get_connection() as conn:
@@ -112,25 +114,25 @@ class Database:
             conn.commit()
             return cursor.lastrowid
 
-        def update(self, idea_id, user_id, title, category, estimated_cost, location, notes):
-            with self.get_connection() as conn:
-                cursor = conn.cursor()
-                cursor.execute(
-                    "UPDATE ideas SET title=?, category=?, estimated_cost=?, location=?, notes=? WHERE id=? AND user_id=?",
-                    (title, category, estimated_cost, location, notes, idea_id, user_id),
-                )
-                conn.commit()
-                return cursor.rowcount > 0
+    def update(self, idea_id, user_id, title, category, estimated_cost, location, notes):
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "UPDATE ideas SET title=?, category=?, estimated_cost=?, location=?, notes=? WHERE id=? AND user_id=?",
+                (title, category, estimated_cost, location, notes, idea_id, user_id),
+            )
+            conn.commit()
+            return cursor.rowcount > 0
 
-        def delete(self, idea_id, user_id):
-            with self.get_connection() as conn:
-                cursor = conn.cursor()
-                cursor.execute(
-                    "DELETE FROM ideas WHERE id = ? AND user_id = ?",
-                    (idea_id, user_id),
-                )
-                conn.commit()
-                return cursor.rowcount > 0
+    def delete(self, idea_id, user_id):
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "DELETE FROM ideas WHERE id = ? AND user_id = ?",
+                (idea_id, user_id),
+            )
+            conn.commit()
+            return cursor.rowcount > 0
 
 
 db = Database()
@@ -149,7 +151,7 @@ def home():
     return render_template("index.html")
 
 
-# auth
+# authUser 
 @app.route("/api/users", methods=["POST"])
 def register():
     data = request.get_json() or {}
@@ -209,7 +211,7 @@ def logout():
     return resp
 
 
-# protected idea
+#protected idea 
 @app.route("/api/ideas", methods=["GET"])
 def get_ideas():
     user = get_current_user()
@@ -289,3 +291,4 @@ def not_found(e):
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
