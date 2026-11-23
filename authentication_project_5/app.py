@@ -87,44 +87,50 @@ class Database:
             return dict(row) if row else None
 
     #Idea methods
-    def get_all(self):
-        with self.get_connection() as conn:
-            rows = conn.execute("SELECT * FROM ideas").fetchall()
-            return [dict(row) for row in rows]
+    def get_all(self, user_id):
+            with self.get_connection() as conn:
+                rows = conn.execute(
+                    "SELECT * FROM ideas WHERE user_id = ?", (user_id,)
+                ).fetchall()
+                return [dict(row) for row in rows]
 
-    def get_one(self, idea_id):
+    def get_one(self, idea_id, user_id):
         with self.get_connection() as conn:
             row = conn.execute(
-                "SELECT * FROM ideas WHERE id = ?", (idea_id,)
+                "SELECT * FROM ideas WHERE id = ? AND user_id = ?",
+                (idea_id, user_id),
             ).fetchone()
             return dict(row) if row else None
 
-    def create(self, title, category, estimated_cost, location, notes):
+    def create(self, user_id, title, category, estimated_cost, location, notes):
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO ideas (title, category, estimated_cost, location, notes) VALUES (?, ?, ?, ?, ?)",
-                (title, category, estimated_cost, location, notes),
+                "INSERT INTO ideas (user_id, title, category, estimated_cost, location, notes) VALUES (?, ?, ?, ?, ?, ?)",
+                (user_id, title, category, estimated_cost, location, notes),
             )
             conn.commit()
             return cursor.lastrowid
 
-    def update(self, idea_id, title, category, estimated_cost, location, notes):
-        with self.get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                "UPDATE ideas SET title=?, category=?, estimated_cost=?, location=?, notes=? WHERE id=?",
-                (title, category, estimated_cost, location, notes, idea_id),
-            )
-            conn.commit()
-            return cursor.rowcount > 0
+        def update(self, idea_id, user_id, title, category, estimated_cost, location, notes):
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "UPDATE ideas SET title=?, category=?, estimated_cost=?, location=?, notes=? WHERE id=? AND user_id=?",
+                    (title, category, estimated_cost, location, notes, idea_id, user_id),
+                )
+                conn.commit()
+                return cursor.rowcount > 0
 
-    def delete(self, idea_id):
-        with self.get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("DELETE FROM ideas WHERE id = ?", (idea_id,))
-            conn.commit()
-            return cursor.rowcount > 0
+        def delete(self, idea_id, user_id):
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "DELETE FROM ideas WHERE id = ? AND user_id = ?",
+                    (idea_id, user_id),
+                )
+                conn.commit()
+                return cursor.rowcount > 0
 
 
 db = Database()
@@ -206,16 +212,18 @@ def logout():
 # protected idea
 @app.route("/api/ideas", methods=["GET"])
 def get_ideas():
-    if not get_current_user():
+    user = get_current_user()
+    if not user:
         return jsonify({"error": "Unauthorized. Please log in."}), 401
-    return jsonify(db.get_all()), 200
+    return jsonify(db.get_all(user["id"])), 200
 
 
 @app.route("/api/ideas/<int:idea_id>", methods=["GET"])
 def get_idea(idea_id):
-    if not get_current_user():
+    user = get_current_user()
+    if not user:
         return jsonify({"error": "Unauthorized. Please log in."}), 401
-    idea = db.get_one(idea_id)
+    idea = db.get_one(idea_id, user["id"])
     if not idea:
         return jsonify({"error": f"Idea with ID {idea_id} not found."}), 404
     return jsonify(idea), 200
@@ -223,7 +231,8 @@ def get_idea(idea_id):
 
 @app.route("/api/ideas", methods=["POST"])
 def create_idea():
-    if not get_current_user():
+    user = get_current_user()
+    if not user:
         return jsonify({"error": "Unauthorized. Please log in."}), 401
     data = request.get_json() or {}
     required = ["title", "category", "estimated_cost", "location"]
@@ -231,40 +240,44 @@ def create_idea():
         return jsonify({"error": "Missing required attributes in request body"}), 400
 
     new_id = db.create(
+        user["id"],
         data["title"],
         data["category"],
         data["estimated_cost"],
         data["location"],
         data.get("notes", ""),
     )
-    created = db.get_one(new_id)
+    created = db.get_one(new_id, user["id"])
     return jsonify(created), 201
 
 
 @app.route("/api/ideas/<int:idea_id>", methods=["PUT"])
 def update_idea(idea_id):
-    if not get_current_user():
+    user = get_current_user()
+    if not user:
         return jsonify({"error": "Unauthorized. Please log in."}), 401
     data = request.get_json() or {}
-    if not db.get_one(idea_id):
+    if not db.get_one(idea_id, user["id"]):
         return jsonify({"error": f"Idea with ID {idea_id} not found."}), 404
 
     db.update(
         idea_id,
+        user["id"],
         data.get("title"),
         data.get("category"),
         data.get("estimated_cost"),
         data.get("location"),
         data.get("notes", ""),
     )
-    return jsonify(db.get_one(idea_id)), 200
+    return jsonify(db.get_one(idea_id, user["id"])), 200
 
 
 @app.route("/api/ideas/<int:idea_id>", methods=["DELETE"])
 def delete_idea(idea_id):
-    if not get_current_user():
+    user = get_current_user()
+    if not user:
         return jsonify({"error": "Unauthorized. Please log in."}), 401
-    if not db.delete(idea_id):
+    if not db.delete(idea_id, user["id"]):
         return jsonify({"error": f"Idea with ID {idea_id} not found."}), 404
     return jsonify({"message": f"Idea {idea_id} deleted successfully."}), 200
 
